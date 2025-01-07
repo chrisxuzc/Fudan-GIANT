@@ -3,7 +3,7 @@ name: Fetch GitHub Issues
 on:
   workflow_dispatch: # 手动触发工作流
   schedule:
-    - cron: '0 * * * *' # 每小时运行一次
+    - cron: '*/5 * * * *' # 每小时运行一次
 
 jobs:
   fetch-issues:
