@@ -1,13 +1,13 @@
+/* 全局样式 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* 确保页面内容至少占满整个视口 */
+    overflow-y: scroll; /* 强制显示垂直滚动条 */
 }
 
+/* 头部样式 */
 header {
     background: #333;
     color: #fff;
@@ -21,23 +21,35 @@ header nav a {
     text-decoration: none;
 }
 
+/* 主内容样式 */
 main {
-    flex: 1; /* main 部分占据剩余空间 */
     padding: 20px;
 }
 
+/* 任务列表样式 */
+#task-list {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    min-height: 100px; /* 防止内容为空时高度为0 */
+}
+
+/* 每个任务样式 */
 .task {
     border: 1px solid #ddd;
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #fff;
 }
 
+/* 任务标题 */
 .task h3 {
     margin: 0 0 10px;
 }
 
+/* 页脚样式 */
 footer {
     background: #333;
     color: #fff;
