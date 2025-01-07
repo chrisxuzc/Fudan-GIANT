@@ -3,58 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Group</title>
-    <link rel="stylesheet" href="style.css">
+    <title>课题组网站</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>课题组名称</h1>
+        <h1>课题组网站</h1>
         <nav>
-            <a href="#about">关于我们</a>
-            <a href="#members">课题组成员</a>
-            <a href="#tasks">任务系统</a>
+            <a href="index.html">关于我们</a>
+            <a href="members.html">课题组成员</a>
+            <a href="activities.html">日常活动</a>
+            <a href="tasks.html">任务管理</a>
         </nav>
     </header>
-
-    <section id="about">
+    <main>
         <h2>关于我们</h2>
-        <p>这里是对课题组的介绍，包含研究方向、目标和历史。</p>
-    </section>
-
-    <section id="members">
-        <h2>课题组成员</h2>
-        <div class="member">
-            <img src="assets/member1.jpg" alt="Member 1">
-            <h3>姓名1</h3>
-            <p>研究方向：人工智能</p>
-            <p>联系方式：email1@example.com</p>
-        </div>
-        <div class="member">
-            <img src="assets/member2.jpg" alt="Member 2">
-            <h3>姓名2</h3>
-            <p>研究方向：计算机视觉</p>
-            <p>联系方式：email2@example.com</p>
-        </div>
-    </section>
-
-    <section id="tasks">
-        <h2>任务管理系统</h2>
-        <form id="taskForm">
-            <label for="taskName">任务名称：</label>
-            <input type="text" id="taskName" required>
-            <label for="taskAssignee">负责人：</label>
-            <input type="text" id="taskAssignee" required>
-            <button type="submit">发布任务</button>
-        </form>
-
-        <h3>当前任务：</h3>
-        <ul id="taskList"></ul>
-    </section>
-
+        <p>欢迎来到我们的课题组网站，这里展示研究方向和成果。</p>
+        <img src="assets/group_photo.jpg" alt="课题组照片" />
+    </main>
     <footer>
-        <p>© 2025 课题组名称</p>
+        <p>&copy; 2025 课题组</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
