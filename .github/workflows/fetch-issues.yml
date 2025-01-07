@@ -1,29 +1,34 @@
 name: Fetch GitHub Issues
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # 手动触发工作流
+  schedule:
+    - cron: '0 * * * *' # 每小时运行一次
 
 jobs:
   fetch-issues:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: 检出代码
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: 拉取 GitHub Issues 数据
       - name: Fetch Issues
         env:
-          GITHUB_TOKEN: ${{ secrets.API_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 内置 Token
         run: |
           curl -H "Authorization: token $GITHUB_TOKEN" \
-          https://api.github.com/repos/chrisxuzc/Fudan-GIANT/issues > issues.json
+               https://api.github.com/repos/chrisxuzc/Fudan-GIANT/issues > issues.json
+          echo "Fetched issues:"
+          cat issues.json
 
-      - name: Commit and push changes
+      # Step 3: 将 issues.json 保存到仓库
+      - name: Push changes
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git add issues.json
           git commit -m "Update issues.json"
           git push
