@@ -17,7 +17,7 @@ jobs:
       # Step 2: 拉取 GitHub Issues 数据
       - name: Fetch Issues
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 内置 Token
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN }} # 使用 GitHub 内置 Token
         run: |
           curl -H "Authorization: token $GITHUB_TOKEN" \
                https://api.github.com/repos/chrisxuzc/Fudan-GIANT/issues > issues.json
