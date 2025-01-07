@@ -1,6 +1,6 @@
 async function fetchTasks() {
     try {
-        // 从本地 issues.json 文件加载任务数据
+        // 从 issues.json 加载任务
         const response = await fetch("issues.json");
         if (!response.ok) throw new Error("无法加载任务列表");
         const issues = await response.json();
