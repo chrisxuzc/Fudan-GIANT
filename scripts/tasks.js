@@ -1,17 +1,11 @@
-async function fetchTasks() {
-    try {
-        const response = await fetch("issues.json");
-        if (!response.ok) throw new Error("无法加载任务列表");
-        const issues = await response.json();
-        renderTasks(issues);
-    } catch (error) {
-        document.getElementById("task-list").innerHTML = `<p>${error.message}</p>`;
-    }
-}
-
 function renderTasks(issues) {
     const taskList = document.getElementById("task-list");
     taskList.innerHTML = ""; // 清空加载提示
+
+    if (!issues || issues.length === 0) {
+        taskList.innerHTML = "<p>暂无任务。</p>";
+        return;
+    }
 
     issues.forEach(issue => {
         const lastUpdated = new Date(issue.updated_at);
@@ -20,6 +14,7 @@ function renderTasks(issues) {
         const taskDiv = document.createElement("div");
         taskDiv.className = "task";
 
+        // 检查 latest_comment 是否存在且内容有效
         let latestComment = "";
         if (issue.latest_comment && issue.latest_comment.body) {
             const commentTime = new Date(issue.latest_comment.created_at);
@@ -27,6 +22,8 @@ function renderTasks(issues) {
                 <p><strong>最新进展：</strong> ${issue.latest_comment.body}</p>
                 <p><strong>进展时间：</strong> ${commentTime.toLocaleDateString()} (${Math.floor((new Date() - commentTime) / (1000 * 60 * 60 * 24))} 天前)</p>
             `;
+        } else {
+            latestComment = "<p><strong>最新进展：</strong> 暂无</p>";
         }
 
         taskDiv.innerHTML = `
@@ -40,6 +37,3 @@ function renderTasks(issues) {
         taskList.appendChild(taskDiv);
     });
 }
-
-// 页面加载时获取任务
-fetchTasks();
