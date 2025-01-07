@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "任务 1",
+    "body": "任务描述内容",
+    "created_at": "2025-01-01T12:00:00Z",
+    "updated_at": "2025-01-02T15:00:00Z",
+    "html_url": "https://github.com/chrisxuzc/Fudan-GIANT/issues/1"
+  },
+  {
+    "id": 2,
+    "title": "任务 2",
+    "body": "另一个任务描述",
+    "created_at": "2025-01-03T08:00:00Z",
+    "updated_at": "2025-01-04T10:00:00Z",
+    "html_url": "https://github.com/chrisxuzc/Fudan-GIANT/issues/2"
+  }
+]
