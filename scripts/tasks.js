@@ -1,10 +1,7 @@
 const repoOwner = "chrisxuzc"; // 替换为你的 GitHub 用户名
 const repoName = "Fudan-GIANT"; // 替换为你的 GitHub 仓库名
 const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/issues`;
-const headers = {
-    Authorization: "token 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"
-};
-const response = await fetch(apiUrl, { headers });
+
 
 
 
