@@ -2,13 +2,18 @@ const repoOwner = "chrisxuzc"; // 替换为你的 GitHub 用户名
 const repoName = "Fudan-GIANT"; // 替换为你的 GitHub 仓库名
 const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/issues`;
 
-
-
+// 如果需要访问私有仓库，设置 Token（从环境变量中读取）
+const token = "API_TOKEN"; // 替换为你的 GitHub Personal Access Token
 
 async function fetchTasks() {
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("无法加载任务列表");
+        const headers = token ? { Authorization: `token ${token}` } : {};
+        const response = await fetch(apiUrl, { headers });
+
+        if (!response.ok) {
+            throw new Error(`无法加载任务列表：${response.status} ${response.statusText}`);
+        }
+
         const issues = await response.json();
         renderTasks(issues);
     } catch (error) {
