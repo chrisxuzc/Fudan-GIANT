@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'  # 每小时运行一次
+    - cron: '0 * * * *'  # 每小时运行一次
 
 jobs:
   fetch-issues:
@@ -18,21 +18,23 @@ jobs:
 
       - name: Fetch Issues and Comments
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN }}
         run: |
           echo "[" > issues.json
-          issues=$(curl -H "Authorization: token $API_TOKEN" \
+          issues=$(curl -H "Authorization: token $GITHUB_TOKEN" \
                https://api.github.com/repos/chrisxuzc/Fudan-GIANT/issues)
           count=$(echo "$issues" | jq '. | length') # 获取 Issue 数量
-          echo "$issues" | jq -c '.[] | {id: .id, title: .title, body: .body, created_at: .created_at, updated_at: .updated_at, html_url: .html_url, comments_url: .comments_url}' | awk -v count=$count '{
-            print $0;
-            if (NR < count) {
-              print ",";
-            }
-          }' | while read issue; do
+          index=0
+          echo "$issues" | jq -c '.[] | {id: .id, title: .title, body: .body, created_at: .created_at, updated_at: .updated_at, html_url: .html_url, comments_url: .comments_url}' | while read issue; do
             comments=$(curl -H "Authorization: token $GITHUB_TOKEN" $(echo $issue | jq -r '.comments_url'))
             latest_comment=$(echo "$comments" | jq -c 'sort_by(.created_at) | last | {body: .body, created_at: .created_at}' || echo "{}")
-            echo "$(echo $issue | jq -c --argjson comment "$latest_comment" '. + {latest_comment: $comment}')" >> issues.json
+            issue_with_comment=$(echo $issue | jq -c --argjson comment "$latest_comment" '. + {latest_comment: $comment}')
+            index=$((index + 1))
+            if [ $index -eq $count ]; then
+              echo "$issue_with_comment" >> issues.json # 最后一条记录后不加逗号
+            else
+              echo "$issue_with_comment," >> issues.json # 其他记录后加逗号
+            fi
           done
           echo "]" >> issues.json
           echo "Fetched issues with comments:"
