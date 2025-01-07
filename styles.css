@@ -3,19 +3,12 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-}
-header {
-    background: #333;
-    color: #fff;
-    padding: 1rem 0;
-    text-align: center;
-}
-header nav a {
-    color: #fff;
-    margin: 0 15px;
-    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 main {
+    flex: 1;
     padding: 20px;
 }
 .task {
@@ -33,7 +26,4 @@ footer {
     color: #fff;
     text-align: center;
     padding: 1rem 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
 }
