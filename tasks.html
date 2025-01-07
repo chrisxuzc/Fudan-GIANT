@@ -3,7 +3,7 @@ const taskForm = document.getElementById('taskForm');
 const taskList = document.getElementById('taskList');
 
 // 加载任务数据
-fetch('tasks.json')
+fetch('issues.json')
     .then(response => response.json())
     .then(data => {
         data.tasks.forEach(task => {
