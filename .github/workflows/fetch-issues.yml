@@ -1,34 +1,41 @@
-name: Fetch GitHub Issues
+name: Fetch GitHub Issues with Comments
 
 on:
-  workflow_dispatch: # 手动触发工作流
+  push:
+    branches:
+      - main
+  workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *' # 每小时运行一次
+    - cron: '*/5 * * * *'  # 每小时运行一次
 
 jobs:
   fetch-issues:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: 检出代码
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: 拉取 GitHub Issues 数据
-      - name: Fetch Issues
+      - name: Fetch Issues and Comments
         env:
-          GITHUB_TOKEN: ${{ secrets.API_TOKEN }} # 使用 GitHub 内置 Token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -H "Authorization: token $GITHUB_TOKEN" \
-               https://api.github.com/repos/chrisxuzc/Fudan-GIANT/issues > issues.json
-          echo "Fetched issues:"
+          echo "[" > issues.json
+          issues=$(curl -H "Authorization: token $GITHUB_TOKEN" \
+               https://api.github.com/repos/chrisxuzc/Fudan-GIANT/issues)
+          echo "$issues" | jq -c '.[] | {id: .id, title: .title, body: .body, created_at: .created_at, updated_at: .updated_at, html_url: .html_url, comments_url: .comments_url}' | while read issue; do
+            comments=$(curl -H "Authorization: token $GITHUB_TOKEN" $(echo $issue | jq -r '.comments_url'))
+            latest_comment=$(echo "$comments" | jq -c 'sort_by(.created_at) | last | {body: .body, created_at: .created_at}' || echo "{}")
+            echo "$(echo $issue | jq -c --argjson comment "$latest_comment" '. + {latest_comment: $comment}')," >> issues.json
+          done
+          echo "]" >> issues.json
+          echo "Fetched issues with comments:"
           cat issues.json
 
-      # Step 3: 将 issues.json 保存到仓库
-      - name: Push changes
+      - name: Commit and push changes
         run: |
-          git config user.name "GitHub Actions"
+          git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add issues.json
-          git commit -m "Update issues.json"
+          git commit -m "Update issues.json with latest comments" || echo "No changes to commit"
           git push
