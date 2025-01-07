@@ -18,7 +18,7 @@ jobs:
 
       - name: Fetch Issues and Comments
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN }}
         run: |
           echo "[" > issues.json
           issues=$(curl -H "Authorization: token $GITHUB_TOKEN" \
