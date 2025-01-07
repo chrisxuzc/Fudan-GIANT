@@ -3,7 +3,7 @@ const repoName = "Fudan-GIANT"; // 替换为你的 GitHub 仓库名
 const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/issues`;
 
 // 如果需要访问私有仓库，设置 Token（从环境变量中读取）
-const token = "API_TOKEN"; // 替换为你的 GitHub Personal Access Token
+const token = "fudan_giant"; // 替换为你的 GitHub Personal Access Token
 
 async function fetchTasks() {
     try {
