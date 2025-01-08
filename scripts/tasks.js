@@ -1,5 +1,24 @@
 console.log("tasks.js loaded and executing...");
+
+async function fetchTasks() {
+    console.log("Starting fetchTasks...");
+    try {
+        const response = await fetch("issues.json");
+        console.log("Response status:", response.status); // 打印响应状态码
+
+        if (!response.ok) throw new Error(`无法加载任务列表：HTTP ${response.status}`);
+        const issues = await response.json();
+        console.log("Fetched issues:", issues); // 打印获取的任务数据
+
+        renderTasks(issues);
+    } catch (error) {
+        console.error("Error fetching tasks:", error); // 打印详细错误信息
+        document.getElementById("task-list").innerHTML = `<p>${error.message}</p>`;
+    }
+}
+
 function renderTasks(issues) {
+    console.log("Rendering tasks:", issues); // 打印任务数据
     const taskList = document.getElementById("task-list");
     taskList.innerHTML = ""; // 清空加载提示
 
@@ -38,3 +57,6 @@ function renderTasks(issues) {
         taskList.appendChild(taskDiv);
     });
 }
+
+// 页面加载时执行
+fetchTasks();
