@@ -1,3 +1,4 @@
+console.log("tasks.js loaded and executing...");
 function renderTasks(issues) {
     const taskList = document.getElementById("task-list");
     taskList.innerHTML = ""; // 清空加载提示
